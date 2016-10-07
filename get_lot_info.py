@@ -1,6 +1,31 @@
 from browsermobproxy import Server
-
 from selenium import webdriver
+
+import os
+from scrape import *
+from setup import *
+import time
+
+
+def json_to_csv(data, file):
+    json.dump(data, open(os.path.join(PATH_OUT, 'raw', file + '.txt'), 'w'))
+
+
+def get_job():
+
+    # Load list of lots
+    with open(os.path.join(PATH_OUT, dict_map_city[CITY] + '.txt')) as f:
+        all_lots_tmp1 = f.readlines()
+
+    # Insure unique and strip "\n" character
+    all_lots_tmp2 = list(set([x.rstrip() for x in all_lots_tmp1]))
+
+    # Remove lots already extracted
+    list_scraped = [x.strip(".txt") for x in os.listdir(os.path.join(PATH_OUT, 'raw'))]
+    all_lots_tmp3 = [x for x in all_lots_tmp2 if x not in list_scraped]
+
+    return all_lots_tmp3
+
 
 # Set the proxy
 server = Server(BROWSERMOB_PATH)
@@ -11,97 +36,37 @@ chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument("--proxy-server={0}".format(proxy.proxy))
 driver = webdriver.Chrome(CHROME_PATH, chrome_options=chrome_options)
 
-# Load list of lots
-with open(os.path.join(PATH_OUT, dict_map_city[CITY] + '.txt')) as f:
-    all_lots = f.readlines()
-
-print(all_lots)
 # Main function
+all_lots = get_job()
+print("{} jobs remaining".format(len(all_lots)))
 driver = goto_research(driver, city=CITY)
-for lot in all_lots[0]:
-    # Search
-lot = '7529865546'
-result = make_research(proxy,
-                       driver,
-                       search_term=lot,
-                       key_to_find='infoLots')
-# Extract content
-content = get_content(result, key_to_find='infoLots')
 
-print(content.keys())
+list_error = []
+for lot in all_lots[0:30]:
 
-for key, val in content.items():
-    print(key)
-    if isinstance(val, dict):
-        print("-------")
-        print(key, val.keys())
+    try:
 
-'', 
-'', 
-'', 
-'', 
-'', 
-'', 
-'',
-''
+        print("\nExtracting lot  #{0}".format(lot))
 
-print(content['croquis'])
-print(content['infoLots'])
-print(content['zonage'])
-print(content['photos'])
-print(content['proprietaires'])
-print(content['valeurRole'])
-print(content['adresses'])
-print(content['infoGenerale'])
+        # Search
+        result = make_research(proxy, driver,
+                               search_term=lot,
+                               key_to_find='infoLots')
+        # Extract content
+        content = get_content(result, key_to_find='infoLots')
 
+        # Write result
+        json_to_csv(data=content, file=lot)
 
+        # Wait
+        time.sleep(get_random_int(2, 4))
+        print("Extraction completed")
 
-print(content['proprietaires'])
-# Wait
-time.sleep(get_random_int(2, 4))
+    except:
+        list_error.append(lot)
+
 
 server.stop()
 driver.quit()
-
-
-
-
-print(proxy.har['log'])
-log = proxy.har['log']
-
-for val in log['entries']:
-    if val.get('response'):
-        if val['response'].get('content'):
-            if val['response']['content'].get('text'):
-                content = json.loads(val['response']['content']['text'])
-                print("-----------------------")
-                # print(content)
-                if content.get('infoLots'):
-                    print(content)
-
-
-
-test = get_content(log, key_to_find='infoLots')
-print(test.keys())
-test = get_content(log, key_to_find='infoGenerale')
-print(test)
-for val in test:
-    print(val)
-
-print(test)
-for i in range(10):
-    print("Enum with term set to {0}".format(i))
-    content = make_research(driver,
-                            search_term=str(i),
-                            key_to_find='adresse')
-
-    # Extract lot matricule from response
-    for adress in content:
-        list_lots.append(adress['fMat'].replace("-", ""))
-
-    time.sleep(get_random_int(2, 4))
-
-
-
 
 # END #
