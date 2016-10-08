@@ -39,14 +39,15 @@ driver = webdriver.Chrome(CHROME_PATH, chrome_options=chrome_options)
 # Main function
 all_lots = get_job()
 print("{} jobs remaining".format(len(all_lots)))
+
 driver = goto_research(driver, city=CITY)
 
 list_error = []
-for lot in all_lots[0:30]:
+for idx, lot in enumerate(all_lots[0:30]):
 
     try:
-
         print("\nExtracting lot  #{0}".format(lot))
+        print("{0} out of {1}".format(idx+1, length(all_lots)))
 
         # Search
         result = make_research(proxy, driver,
@@ -63,6 +64,7 @@ for lot in all_lots[0:30]:
         print("Extraction completed")
 
     except:
+        print("-->Error")
         list_error.append(lot)
 
 

@@ -1,6 +1,6 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine, Column, Boolean, Integer, String, Date, DateTime, ForeignKey, ForeignKeyConstraint, PrimaryKeyConstraint, Float
+from sqlalchemy import create_engine, Column, Integer, Integer, String, Date, DateTime, ForeignKey, ForeignKeyConstraint, PrimaryKeyConstraint, Float
 
 from setup import DB_PATH
 
@@ -24,17 +24,17 @@ class InfoLots(Base):
     info_id = Column(Integer, autoincrement=True, nullable=False, primary_key=True)
     pull_id = Column(Integer, ForeignKey('lotpull.pull_id'))
 
-    cadastreJour = Column(Boolean, nullable=False)
-    renove = Column(Boolean, nullable=False)
+    cadastrejour = Column(Integer, nullable=True)
+    renove = Column(Integer, nullable=True)
     profondeur = Column(String, nullable=True)
-    cadastreMatrice = Column(Boolean, nullable=False)
-    idLotS_Cad = Column(String, nullable=True)
+    cadastrematrice = Column(Integer, nullable=True)
+    idlots_cad = Column(String, nullable=True)
     frontage = Column(String, nullable=True)
-    cadastreHisto = Column(Boolean, nullable=False)
-    idLotS = Column(Integer, nullable=True)
+    cadastrehisto = Column(Integer, nullable=True)
+    idlots = Column(Integer, nullable=True)
     superficie = Column(String, nullable=True)
-    idLotS_His = Column(String, nullable=True)
-    noLot = Column(String, nullable=False)
+    idlots_his = Column(String, nullable=True)
+    nolot = Column(String, nullable=True)
 
 
 class InfoGenerale(Base):
@@ -44,94 +44,109 @@ class InfoGenerale(Base):
     info_id = Column(Integer, autoincrement=True, nullable=False, primary_key=True)
     pull_id = Column(Integer, ForeignKey('lotpull.pull_id'))
 
-    yearConstruction = Column(Integer)
-    etages = Column(Integer)
-    profondeur = Column(Float)
-    voisinage = Column(String)
-    frontage = Column(Float)
-    nbLocaux = Column(Float)
-    superficie = Column(Float)
-    nbLogements = Column(Float)
-    codeUtilisation = Column(String)
-    utilisation = Column(String)
+    yearconstruction = Column(String, nullable=True)
+    etages = Column(Integer, nullable=True)
+    profondeur = Column(Float, nullable=True)
+    voisinage = Column(String, nullable=True)
+    frontage = Column(Float, nullable=True)
+    nblocaux = Column(Float, nullable=True)
+    superficie = Column(Float, nullable=True)
+    nblogements = Column(Float, nullable=True)
+    codeutilisation = Column(String, nullable=True)
+    utilisation = Column(String, nullable=True)
 
 
 class Proprietaires(Base):
 
     __tablename__ = 'proprietaires'
 
-    price_id = Column(Integer, autoincrement=True, primary_key=True)
-    ticker = Column(String, nullable=False)
-    provider = Column(String, nullable=False)
-    timestamp = Column(DateTime, nullable=False)
-    last = Column(Float, nullable=False)
-    high = Column(Float, nullable=False)
-    low = Column(Float, nullable=False)
-    volume = Column(Float, nullable=False)
-    bid = Column(Float, nullable=False)
-    ask = Column(Float, nullable=False)
+    proprio_id = Column(Integer, autoincrement=True, nullable=False, primary_key=True)
+    pull_id = Column(Integer, ForeignKey('lotpull.pull_id'))
+
+    adresse = Column(String, nullable=True)
+    codepostal = Column(String, nullable=True)
+    city = Column(String, nullable=True)
+    dateinscription = Column(Date, nullable=True)
+    nom = Column(String, nullable=True)
 
 
 class Adresses(Base):
 
     __tablename__ = 'adresses'
 
-    transact_id = Column(Integer, autoincrement=True, nullable=False, primary_key=True)
-    timestamp = Column(DateTime, nullable=False)
-    ticker = Column(String, nullable=False)
-    provider = Column(String, nullable=False)
+    adress_id = Column(Integer, autoincrement=True, nullable=False, primary_key=True)
+    pull_id = Column(Integer, ForeignKey('lotpull.pull_id'))
+
+    x = Column(Float, nullable=True)
+    adresse = Column(String, nullable=True)
+    y = Column(Float, nullable=True)
+    statut = Column(String, nullable=True)
+    fmat18 = Column(String, nullable=True)
+    codegenerique = Column(String, nullable=True)
+    matricule = Column(String, nullable=True)
+    lien = Column(String, nullable=True)
+    voie = Column(String, nullable=True)
+    matricule18 = Column(String, nullable=True)
+    numcivique = Column(String, nullable=True)
+    source = Column(String, nullable=True)
+    isadresseprincipale = Column(Integer, nullable=True)
+    fmat = Column(String, nullable=True)
 
 
 class ValeurRole(Base):
 
     __tablename__ = 'valeurrole'
 
-    id = Column(Integer, autoincrement=True, primary_key=True)
-    transact_id = Column(Integer, ForeignKey('transactpull.transact_id'))
-    trade_date = Column(DateTime, nullable=False)
-    tid = Column(Integer, nullable=False)
-    price = Column(Float, nullable=False)
-    amount = Column(Float, nullable=False)
-    side = Column(String, nullable=False)
+    value_id = Column(Integer, autoincrement=True, nullable=False, primary_key=True)
+    pull_id = Column(Integer, ForeignKey('lotpull.pull_id'))
+
+    t_anterieur = Column(Float, nullable=True)
+    t_actuelle = Column(Float, nullable=True)
+    yearRole = Column(String, nullable=True)
+    i_anterieur = Column(Float, nullable=True)
+    b_anterieur = Column(Float, nullable=True)
+    t_next = Column(String, nullable=True)
+    i_actuelle = Column(Float, nullable=True)
+    b_actuelle = Column(Float, nullable=True)
 
 
-class Croquis(Base):
+# class Croquis(Base):
 
-    __tablename__ = 'croquis'
+#     __tablename__ = 'croquis'
 
-    id = Column(Integer, autoincrement=True, primary_key=True)
-    transact_id = Column(Integer, ForeignKey('transactpull.transact_id'))
-    trade_date = Column(DateTime, nullable=False)
-    tid = Column(Integer, nullable=False)
-    price = Column(Float, nullable=False)
-    amount = Column(Float, nullable=False)
-    side = Column(String, nullable=False)
-
-
-class Zonage(Base):
-
-    __tablename__ = 'zonage'
-
-    id = Column(Integer, autoincrement=True, primary_key=True)
-    transact_id = Column(Integer, ForeignKey('transactpull.transact_id'))
-    trade_date = Column(DateTime, nullable=False)
-    tid = Column(Integer, nullable=False)
-    price = Column(Float, nullable=False)
-    amount = Column(Float, nullable=False)
-    side = Column(String, nullable=False)
+#     id = Column(Integer, autoincrement=True, primary_key=True)
+#     transact_id = Column(Integer, ForeignKey('transactpull.transact_id'))
+#     trade_date = Column(DateTime, nullable=False)
+#     tid = Column(Integer, nullable=False)
+#     price = Column(Float, nullable=False)
+#     amount = Column(Float, nullable=False)
+#     side = Column(String, nullable=False)
 
 
-class Photos(Base):
+# class Zonage(Base):
 
-    __tablename__ = 'photos'
+#     __tablename__ = 'zonage'
 
-    id = Column(Integer, autoincrement=True, primary_key=True)
-    transact_id = Column(Integer, ForeignKey('transactpull.transact_id'))
-    trade_date = Column(DateTime, nullable=False)
-    tid = Column(Integer, nullable=False)
-    price = Column(Float, nullable=False)
-    amount = Column(Float, nullable=False)
-    side = Column(String, nullable=False)
+#     id = Column(Integer, autoincrement=True, primary_key=True)
+#     transact_id = Column(Integer, ForeignKey('transactpull.transact_id'))
+#     trade_date = Column(DateTime, nullable=False)
+#     tid = Column(Integer, nullable=False)
+#     price = Column(Float, nullable=False)
+#     amount = Column(Float, nullable=False)
+#     side = Column(String, nullable=False)
+
+
+# class Photos(Base):
+
+#     __tablename__ = 'photos'
+
+#     id = Column(Integer, autoincrement=True, primary_key=True)
+#     transact_id = Column(Integer, ForeignKey('transactpull.transact_id'))
+#     trade_date = Column(DateTime, nullable=False)
+#     tid = Column(Integer, nullable=False)
+#     price = Column(Float, nullable=False)
+#     amount = Column(Float, nullable=False)
+#     side = Column(String, nullable=False)
 
 
 if __name__ == '__main__':
