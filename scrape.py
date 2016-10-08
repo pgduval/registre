@@ -3,7 +3,11 @@ import csv
 import time
 import json
 
+import selenium
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 def get_random_int(min, max):
@@ -18,7 +22,11 @@ def write_list_to_csv(file, data):
 
 def goto_research(driver, city):
     driver.get("http://www.goazimut.com/GOnet6/index.html?{0}".format(city))
-    time.sleep(15)
+
+    WebDriverWait(driver, 20).until(
+        EC.presence_of_element_located((By.ID, "dijit_form_Button_0_label")))
+
+    time.sleep(get_random_int(1, 3))
     driver.find_element_by_id("dijit_form_Button_0_label").click()
     time.sleep(get_random_int(1, 3))
     driver.find_element_by_css_selector("div.tab.search").click()

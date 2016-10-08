@@ -1,9 +1,10 @@
+from scrape import *
+from setup import *
+
 from browsermobproxy import Server
 from selenium import webdriver
 
 import os
-from scrape import *
-from setup import *
 import time
 
 
@@ -47,7 +48,7 @@ for idx, lot in enumerate(all_lots[0:30]):
 
     try:
         print("\nExtracting lot  #{0}".format(lot))
-        print("{0} out of {1}".format(idx+1, length(all_lots)))
+        print("{0} out of {1}".format(idx + 1, len(all_lots)))
 
         # Search
         result = make_research(proxy, driver,

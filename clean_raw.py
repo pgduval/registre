@@ -134,6 +134,7 @@ def store_value(valeur):
     session.add(new_item)
     session.commit()
 
+
 # Main
 engine = create_engine(DB_PATH)
 DBSession = sessionmaker(bind=engine)
@@ -141,7 +142,14 @@ session = DBSession()
 
 all_lots = os.listdir(os.path.join(PATH_OUT, 'raw'))
 
-for lot in all_lots:
+lots_db = session.query(LotPull.lot_id).all()
+lots_db = [x[0] + ".txt" for x in lots_db]
+
+lots_to_insert = [x for x in all_lots if x not in lots_db]
+
+print("Total lots:{0} - New lots:{1}".format(len(all_lots), len(lots_to_insert)))
+
+for lot in lots_to_insert:
 
     print("Starting lot {0}".format(lot))
     data = json.load(open(os.path.join(PATH_OUT, 'raw', lot)))
@@ -152,6 +160,5 @@ for lot in all_lots:
     store_adresses(data['adresses'])
     store_value(data['valeurRole'])
     print("Done!")
-# lot = '7630252818.txt'
 
 # END

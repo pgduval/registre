@@ -2,6 +2,7 @@ import os
 
 # Settings
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
+DIR_PATH = '/home/elmaster/scraper/registre_foncier/'
 DB_PATH = os.path.join('sqlite:///' + DIR_PATH, 'db', 'data.db')
 
 CHROME_PATH = '/home/elmaster/chromedriver'
