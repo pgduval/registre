@@ -1,5 +1,6 @@
 import os
 
+
 # Settings
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 DIR_PATH = '/home/elmaster/scraper/registre_foncier/'
@@ -10,3 +11,5 @@ BROWSERMOB_PATH = '/home/elmaster/browsermob-proxy-2.1.2/bin/browsermob-proxy'
 dict_map_city = {"27043": 'st_joseph_de_beauce'}
 CITY = "27043"
 PATH_OUT = os.path.join(DIR_PATH, 'output')
+LOG_PATH = os.path.join(DIR_PATH, 'log')
+

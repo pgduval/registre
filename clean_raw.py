@@ -2,6 +2,7 @@ import os
 import json
 import datetime
 import re
+import logging
 
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
@@ -140,6 +141,11 @@ engine = create_engine(DB_PATH)
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+logging.basicConfig(filename=os.path.join(LOG_PATH, 'store.log'),
+                    format='%(asctime)s %(message)s',
+                    datefmt='%m/%d/%Y %I:%M:%S %p',
+                    level=logging.DEBUG)
+
 all_lots = os.listdir(os.path.join(PATH_OUT, 'raw'))
 
 lots_db = session.query(LotPull.lot_id).all()
@@ -149,16 +155,22 @@ lots_to_insert = [x for x in all_lots if x not in lots_db]
 
 print("Total lots:{0} - New lots:{1}".format(len(all_lots), len(lots_to_insert)))
 
+logging.info('--- Start storage session for {0} lots ---'.format(len(lots_to_insert)))
+
 for lot in lots_to_insert:
 
     print("Starting lot {0}".format(lot))
-    data = json.load(open(os.path.join(PATH_OUT, 'raw', lot)))
-    pull_id = store_pull(lot)
-    store_infolots(data['infoLots'])
-    store_infogeneral(data['infoGenerale'])
-    store_proprio(data['proprietaires'])
-    store_adresses(data['adresses'])
-    store_value(data['valeurRole'])
-    print("Done!")
+    try:
+        data = json.load(open(os.path.join(PATH_OUT, 'raw', lot)))
+        pull_id = store_pull(lot)
+        store_infolots(data['infoLots'])
+        store_infogeneral(data['infoGenerale'])
+        store_proprio(data['proprietaires'])
+        store_adresses(data['adresses'])
+        store_value(data['valeurRole'])
+        print("Done!")
+    except:
+        logging.warning('Failed storage for lot: {0}'.format(lot))
+logging.info('---- End storage session ------')
 
 # END

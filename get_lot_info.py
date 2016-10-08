@@ -6,6 +6,7 @@ from selenium import webdriver
 
 import os
 import time
+import logging
 
 
 def json_to_csv(data, file):
@@ -28,6 +29,12 @@ def get_job():
     return all_lots_tmp3
 
 
+# Set logging
+logging.basicConfig(filename=os.path.join(LOG_PATH, 'extract.log'),
+                    format='%(asctime)s %(message)s',
+                    datefmt='%m/%d/%Y %I:%M:%S %p',
+                    level=logging.DEBUG)
+
 # Set the proxy
 server = Server(BROWSERMOB_PATH)
 server.start(options={'log_path': PATH_OUT, 'log_file': 'server.log'})
@@ -36,13 +43,16 @@ proxy = server.create_proxy()
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument("--proxy-server={0}".format(proxy.proxy))
 driver = webdriver.Chrome(CHROME_PATH, chrome_options=chrome_options)
+driver.set_window_size(1280, 1024)
+
 
 # Main function
 all_lots = get_job()
 print("{} jobs remaining".format(len(all_lots)))
 
-driver = goto_research(driver, city=CITY)
+logging.info('--- Start extraction session ---')
 
+driver = goto_research(driver, city=CITY)
 list_error = []
 for idx, lot in enumerate(all_lots[0:30]):
 
@@ -66,10 +76,15 @@ for idx, lot in enumerate(all_lots[0:30]):
 
     except:
         print("-->Error")
+        logging.warning('Failed extraction for lot: {0}'.format(lot))
         list_error.append(lot)
-
 
 server.stop()
 driver.quit()
+
+logging.info('---- Extraction session stats ------')
+logging.info('Number of failure: {0}'.format(len(list_error)))
+logging.info('List of failure {0}'.format(list_error))
+logging.info('---- End extraction session ------')
 
 # END #
