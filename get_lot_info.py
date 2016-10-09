@@ -7,6 +7,7 @@ from selenium import webdriver
 import os
 import time
 import logging
+import numpy as np
 
 
 def json_to_csv(data, file):
@@ -37,7 +38,7 @@ logging.basicConfig(filename=os.path.join(LOG_PATH, 'extract.log'),
 
 # Set the proxy
 server = Server(BROWSERMOB_PATH)
-server.start(options={'log_path': PATH_OUT, 'log_file': 'server.log'})
+server.start(options={'log_path': LOG_PATH, 'log_file': 'server.log'})
 proxy = server.create_proxy()
 
 chrome_options = webdriver.ChromeOptions()
@@ -54,7 +55,8 @@ logging.info('--- Start extraction session ---')
 
 driver = goto_research(driver, city=CITY)
 list_error = []
-for idx, lot in enumerate(all_lots[0:30]):
+n_session = np.random.randint(MIN_LOTS_SESSION, MAX_LOTS_SESSION)
+for idx, lot in enumerate(all_lots[0:n_session]):
 
     try:
         print("\nExtracting lot  #{0}".format(lot))
