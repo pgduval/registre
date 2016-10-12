@@ -5,7 +5,7 @@ user = getpass.getuser()
 # Settings
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 # DIR_PATH = '/home/elmaster/scraper/registre_foncier/'
-CHROME_PATH = '/home/{0}/chromedriver'
+CHROME_PATH = '/home/{0}/chromedriver'.format(user)
 BROWSERMOB_PATH = '/home/{0}/browsermob-proxy-2.1.2/bin/browsermob-proxy'.format(user)
 
 DB_PATH = os.path.join('sqlite:///' + DIR_PATH, 'db', 'data.db')

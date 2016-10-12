@@ -3,7 +3,7 @@ from setup import *
 
 from browsermobproxy import Server
 from selenium import webdriver
-
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import os
 import time
 import logging
@@ -37,9 +37,9 @@ logging.basicConfig(filename=os.path.join(LOG_PATH, 'extract.log'),
                     level=logging.DEBUG)
 
 # Set the proxy
-server = Server(BROWSERMOB_PATH)
-server.start(options={'log_path': LOG_PATH, 'log_file': 'server.log'})
-proxy = server.create_proxy()
+# server = Server(BROWSERMOB_PATH)
+# server.start(options={'log_path': LOG_PATH, 'log_file': 'server.log'})
+# proxy = server.create_proxy()
 
 # chrome_options = webdriver.ChromeOptions()
 # chrome_options.add_argument("--proxy-server={0}".format(proxy.proxy))
@@ -56,7 +56,7 @@ dcap["phantomjs.page.settings.userAgent"] = user_agent
 service_args = ['--proxy={0}'.format(proxy.proxy)]
 
 driver = webdriver.PhantomJS(desired_capabilities=dcap, service_args=service_args)
-driver.manage().window().setSize(1280, 1024)
+driver.set_window_size(1280, 1024)
 
 # Main function
 all_lots = get_job()
