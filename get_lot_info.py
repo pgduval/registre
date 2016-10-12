@@ -41,11 +41,22 @@ server = Server(BROWSERMOB_PATH)
 server.start(options={'log_path': LOG_PATH, 'log_file': 'server.log'})
 proxy = server.create_proxy()
 
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument("--proxy-server={0}".format(proxy.proxy))
-driver = webdriver.Chrome(CHROME_PATH, chrome_options=chrome_options)
-driver.set_window_size(1280, 1024)
+# chrome_options = webdriver.ChromeOptions()
+# chrome_options.add_argument("--proxy-server={0}".format(proxy.proxy))
+# driver = webdriver.Chrome(CHROME_PATH, chrome_options=chrome_options)
+# driver.set_window_size(1280, 1024)
 
+user_agent = (
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36"
+)
+
+dcap = dict(DesiredCapabilities.PHANTOMJS)
+dcap["phantomjs.page.settings.userAgent"] = user_agent
+
+service_args = ['--proxy={0}'.format(proxy.proxy)]
+
+driver = webdriver.PhantomJS(desired_capabilities=dcap, service_args=service_args)
+driver.manage().window().setSize(1280, 1024)
 
 # Main function
 all_lots = get_job()
@@ -73,7 +84,7 @@ for idx, lot in enumerate(all_lots[0:n_session]):
         json_to_csv(data=content, file=lot)
 
         # Wait
-        time.sleep(get_random_int(2, 4))
+        time.sleep(get_random_int(2, 6))
         print("Extraction completed")
 
     except:
