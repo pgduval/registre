@@ -1,25 +1,24 @@
+from scrape import *
+from setup import *
+
 from browsermobproxy import Server
 from selenium import webdriver
 # from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 import os
-from scrape import *
-from setup import *
 import time
 
 
 # Set the proxy
-server = Server('~/browsermob-proxy-2.1.2/bin/browsermob-proxy')
-server.start(options={'log_path': PATH_OUT, 'log_file': 'server.log'})
+server = Server(BROWSERMOB_PATH)
+server.start(options={'log_path': LOG_PATH, 'log_file': 'server.log'})
 proxy = server.create_proxy()
 
 # Set the browser
-# profile = webdriver.FirefoxProfile()
-# profile.set_proxy(proxy.selenium_proxy())
-# driver = webdriver.Firefox(firefox_profile=profile)
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument("--proxy-server={0}".format(proxy.proxy))
 driver = webdriver.Chrome(CHROME_PATH, chrome_options=chrome_options)
+driver.set_window_size(1280, 1024)
 
 # Main function
 list_lots = []

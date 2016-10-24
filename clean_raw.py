@@ -146,9 +146,11 @@ logging.basicConfig(filename=os.path.join(LOG_PATH, 'store.log'),
                     datefmt='%m/%d/%Y %I:%M:%S %p',
                     level=logging.DEBUG)
 
-all_lots = os.listdir(os.path.join(PATH_OUT, 'raw'))
+all_lots = os.listdir(RAW_PATH)
 
-lots_db = session.query(LotPull.lot_id).all()
+# lots_db = session.query(LotPull.lot_id).all()
+lots_db = session.query(LotPull.lot_id).filter(LotPull.city==CITY).all()
+
 lots_db = [x[0] + ".txt" for x in lots_db]
 
 lots_to_insert = [x for x in all_lots if x not in lots_db]
@@ -161,7 +163,7 @@ for lot in lots_to_insert:
 
     print("Starting lot {0}".format(lot))
     try:
-        data = json.load(open(os.path.join(PATH_OUT, 'raw', lot)))
+        data = json.load(open(os.path.join(RAW_PATH, lot)))
         pull_id = store_pull(lot)
         store_infolots(data['infoLots'])
         store_infogeneral(data['infoGenerale'])

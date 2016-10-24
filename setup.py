@@ -12,7 +12,13 @@ DB_PATH = os.path.join('sqlite:///' + DIR_PATH, 'db', 'data.db')
 PATH_OUT = os.path.join(DIR_PATH, 'output')
 LOG_PATH = os.path.join(DIR_PATH, 'log')
 
-dict_map_city = {"27043": 'st_joseph_de_beauce'}
-CITY = "27043"
-MIN_LOTS_SESSION = 35
-MAX_LOTS_SESSION = 85
+dict_map_city = {"27043": 'st_joseph_de_beauce',
+                 "27035": 'st_odilon_de_cranbourne',
+                 "26005": 'framption',
+                 "26035": 'sainte_marguerite',
+                 "26010": 'saints-anges'
+                 }
+CITY = "26005"
+RAW_PATH = os.path.join(PATH_OUT, 'raw', dict_map_city[CITY])
+MIN_LOTS_SESSION = 100
+MAX_LOTS_SESSION = 200
