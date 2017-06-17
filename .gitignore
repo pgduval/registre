@@ -1,4 +1,5 @@
-/output/*
-/db/*
-__pycache__/*
+*~*
 *.log
+__*
+/db/*
+/output/*

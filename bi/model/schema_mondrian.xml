@@ -1,0 +1,21 @@
+<Schema>
+  <Cube name="Registre Cube">
+    <Table name="fact_valeur_role"/>
+    <Dimension name="Lots" foreignKey="id_lots">
+    </Dimension>
+    <Dimension name="Time" foreignKey="id_date">
+      <Hierarchy hasAll="false" primaryKey="id_date">
+      <Table name="dim_temps"/>
+      <Level name="Year" column="the_year" type="Numeric" uniqueMembers="false"/>
+      <Level name="Quarter" column="quarter" uniqueMembers="false"/>
+      <Level name="Month" column="month_of_year" type="Numeric" uniqueMembers="false"/>
+      </Hierarchy>
+    </Dimension>
+    <Measure name="Terrain Valeur Precendente" column="terrain_valeur_precedente" aggregator="sum" formatString="#,##"/>
+    <Measure name="Batisse Valeur Precendente" column="batisse_valeur_precedente" aggregator="sum" formatString="#,##"/>
+    <Measure name="Total Valeur Precendente" column="total_valeur_precedente" aggregator="sum" formatString="#,##"/>
+    <Measure name="Terrain Valeur Courante" column="terrain_valeur_courante" aggregator="sum" formatString="#,##"/>
+    <Measure name="Batisse Valeur Courante" column="batisse_valeur_courante" aggregator="sum" formatString="#,##"/>
+    <Measure name="Total Valeur Courante" column="total_valeur_courante" aggregator="sum" formatString="#,##"/>
+  </Cube>
+</Schema>

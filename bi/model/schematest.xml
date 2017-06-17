@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Schema name="registre_star">
+ <Dimension name="dim_temps" type="TimeDimension" caption="dim_temps">
+  <Hierarchy name="year_month" hasAll="true" allLevelName="All" primaryKey="id_date" caption="year_month">
+   <Table name="dim_temps" schema="registre"/>
+   <Level name="timeday" column="day" uniqueMembers="false" levelType="TimeDays" caption="timeday"/>
+  </Hierarchy>
+ </Dimension>
+ <Dimension name="dim_lots" type="StandardDimension" caption="dim_lots">
+  <Hierarchy name="dim_lots" hasAll="true" allLevelName="All" primaryKey="id_lots" caption="dim_lots">
+   <Table name="dim_lots" schema="registre"/>
+   <Level name="Ville" column="lot_ville" uniqueMembers="false" caption="Ville"/>
+   <Level name="Utilisation" column="lot_desc_utilisation" uniqueMembers="false" caption="Utilisation"/>
+   <Level name="Annee Construction" column="lot_annee_construction" uniqueMembers="false" caption="Annee Construction"/>
+  </Hierarchy>
+ </Dimension>
+ <Cube name="fact_valeur_role" caption="fact_valeur_role">
+  <Table name="fact_valeur_role" schema="registre"/>
+  <DimensionUsage source="dim_lots" name="dim_lots" caption="id_lots" foreignKey="id_lots"/>
+  <DimensionUsage source="dim_temps" name="dim_temps" caption="id_temps" foreignKey="id_date_extract"/>
+  <Measure name="avg_value" column="terrain_valeur_precedente" aggregator="avg" caption="avg_value"/>
+  <Measure name="Terrain Valeur Courante" column="terrain_valeur_courante" aggregator="sum" caption="Terrain Valeur Courante"/>
+ </Cube>
+</Schema>
