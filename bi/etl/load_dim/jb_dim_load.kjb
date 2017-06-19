@@ -348,7 +348,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;tr_dim_propretaire_load.ktr</filename>
+      <filename>&#x2f;home&#x2f;elmaster&#x2f;scraper&#x2f;registre_foncier&#x2f;bi&#x2f;etl&#x2f;load_dim&#x2f;tr_dim_propretaire_load.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -383,7 +383,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;tr_dim_proprio_individu_bridge_load.ktr</filename>
+      <filename>&#x2f;home&#x2f;elmaster&#x2f;scraper&#x2f;registre_foncier&#x2f;bi&#x2f;etl&#x2f;load_dim&#x2f;tr_dim_proprio_individu_bridge_load.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -428,7 +428,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;tr_dim_individu_load.ktr</filename>
+      <filename>&#x2f;home&#x2f;elmaster&#x2f;scraper&#x2f;registre_foncier&#x2f;bi&#x2f;etl&#x2f;load_dim&#x2f;tr_dim_individu_load.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>

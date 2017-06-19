@@ -312,7 +312,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>&#x2f;home&#x2f;elmaster&#x2f;scraper&#x2f;registre_foncier&#x2f;bi&#x2f;etl&#x2f;Load Dim&#x2f;jb_dim_load.kjb</filename>
+      <filename>&#x2f;home&#x2f;elmaster&#x2f;scraper&#x2f;registre_foncier&#x2f;bi&#x2f;etl&#x2f;load_dim&#x2f;jb_dim_load.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -343,7 +343,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>&#x2f;home&#x2f;elmaster&#x2f;scraper&#x2f;registre_foncier&#x2f;bi&#x2f;etl&#x2f;Load Fact&#x2f;jb_fact_load.kjb</filename>
+      <filename>&#x2f;home&#x2f;elmaster&#x2f;scraper&#x2f;registre_foncier&#x2f;bi&#x2f;etl&#x2f;load_fact&#x2f;jb_fact_load.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>

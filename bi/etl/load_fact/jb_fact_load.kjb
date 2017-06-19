@@ -4,6 +4,7 @@
   <description/>
   <extended_description/>
   <job_version/>
+  <job_status>0</job_status>
   <directory>&#x2f;</directory>
   <created_user>-</created_user>
   <created_date>2017&#x2f;06&#x2f;04 15&#x3a;41&#x3a;59.604</created_date>
@@ -312,7 +313,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;tr_fact_valeur_load.ktr</filename>
+      <filename>&#x2f;home&#x2f;elmaster&#x2f;scraper&#x2f;registre_foncier&#x2f;bi&#x2f;etl&#x2f;load_fact&#x2f;tr_fact_valeur_load.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
