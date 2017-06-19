@@ -1,24 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Schema name="registre_star">
- <Dimension name="dim_temps" type="TimeDimension" caption="dim_temps">
-  <Hierarchy name="year_month" hasAll="true" allLevelName="All" primaryKey="id_date" caption="year_month">
-   <Table name="dim_temps" schema="registre"/>
-   <Level name="timeday" column="day" uniqueMembers="false" levelType="TimeDays" caption="timeday"/>
-  </Hierarchy>
- </Dimension>
- <Dimension name="dim_lots" type="StandardDimension" caption="dim_lots">
-  <Hierarchy name="dim_lots" hasAll="true" allLevelName="All" primaryKey="id_lots" caption="dim_lots">
-   <Table name="dim_lots" schema="registre"/>
-   <Level name="Ville" column="lot_ville" uniqueMembers="false" caption="Ville"/>
-   <Level name="Utilisation" column="lot_desc_utilisation" uniqueMembers="false" caption="Utilisation"/>
-   <Level name="Annee Construction" column="lot_annee_construction" uniqueMembers="false" caption="Annee Construction"/>
-  </Hierarchy>
- </Dimension>
- <Cube name="fact_valeur_role" caption="fact_valeur_role">
-  <Table name="fact_valeur_role" schema="registre"/>
-  <DimensionUsage source="dim_lots" name="dim_lots" caption="id_lots" foreignKey="id_lots"/>
-  <DimensionUsage source="dim_temps" name="dim_temps" caption="id_temps" foreignKey="id_date_extract"/>
-  <Measure name="avg_value" column="terrain_valeur_precedente" aggregator="avg" caption="avg_value"/>
-  <Measure name="Terrain Valeur Courante" column="terrain_valeur_courante" aggregator="sum" caption="Terrain Valeur Courante"/>
- </Cube>
+  <!-- Fact  -->
+  <Cube caption="Registre Foncier" name="Registre Foncier">
+    <Table name="fact_valeur_role" schema="registre"/>
+    <!-- Dimension temps -->
+    <Dimension foreignKey="id_date" name="Temps" type="TimeDimension">
+      <Hierarchy allMemberName="All Years" hasAll="true" primaryKey="id_date">
+        <Table name="dim_temps"/>
+        <Level column="year" hideMemberIf="Never" levelType="TimeYears" name="Years" type="String" uniqueMembers="true"/>
+        <Level column="quarter_name" hideMemberIf="Never" levelType="TimeQuarters" name="Quarters" ordinalColumn="quarter" type="String" uniqueMembers="false"/>
+        <Level column="month_name" hideMemberIf="Never" levelType="TimeMonths" name="Months" ordinalColumn="month" type="String" uniqueMembers="false"/>
+      </Hierarchy>
+    </Dimension>
+<!-- Dimension lots -->
+    <!-- Ville -->
+    <Dimension foreignKey="id_lots" name="Ville">
+      <Hierarchy allMemberName="All Ville" hasAll="true" primaryKey="id_lots">
+        <Table name="dim_lots"/>
+        <Level column="lot_ville" hideMemberIf="Never" levelType="Regular" name="Ville" type="String" uniqueMembers="false"/>
+      </Hierarchy>
+      <!-- Utilisation -->
+    </Dimension>
+    <Dimension foreignKey="id_lots" name="Utilisation">
+      <Hierarchy allMemberName="All Utilisation" hasAll="true" primaryKey="id_lots">
+        <Table name="dim_lots"/>
+        <Level column="lot_desc_utilisation" hideMemberIf="Never" levelType="Regular" name="Utilisation" type="String" uniqueMembers="false"/>
+      </Hierarchy>
+    </Dimension>
+      <!-- Annee construction -->
+    <Dimension foreignKey="id_lots" name="Annee Construction">
+      <Hierarchy allMemberName="All Construction" hasAll="true" primaryKey="id_lots">
+        <Table name="dim_lots"/>
+        <Level column="lot_annee_construction" hideMemberIf="Never" levelType="Regular" name="Annee Construction" type="String" uniqueMembers="false"/>
+      </Hierarchy>
+    </Dimension>
+    <!-- Measures -->
+    <Measure aggregator="count" caption="Counter" column="terrain_valeur_precedente" name="Counter"/>
+    <Measure aggregator="sum" caption="Sum - Terrain Valeur Precedente" column="terrain_valeur_precedente" name="Sum - Terrain Valeur Precedente"/>
+    <Measure aggregator="sum" caption="Sum - Batisse Valeur Precedente" column="batisse_valeur_precedente" name="Sum - Batisse Valeur Precedente"/>
+    <Measure aggregator="sum" caption="Sum - Total Valeur Precendente" column="total_valeur_precedente" name="Sum - Total Valeur Precendente"/>
+    <Measure aggregator="sum" caption="Sum - Terrain Valeur Courante" column="terrain_valeur_courante" name="Sum - Terrain Valeur Courante"/>
+    <Measure aggregator="sum" caption="Sum - Batisse Valeur Courante" column="batisse_valeur_courante" name="Sum - Batisse Valeur Courante"/>
+    <Measure aggregator="sum" caption="Sum - Total Valeur Courante" column="total_valeur_courante" name="Sum - Total Valeur Courante"/>
+    <Measure aggregator="avg" caption="Avg - Terrain Valeur Precedente" column="terrain_valeur_precedente" name="Avg - Terrain Valeur Precedente"/>
+    <Measure aggregator="avg" caption="Avg - Batisse Valeur Precedente" column="batisse_valeur_precedente" name="Avg - Batisse Valeur Precedente"/>
+    <Measure aggregator="avg" caption="Avg - Total Valeur Precendente" column="total_valeur_precedente" name="Avg - Total Valeur Precendente"/>
+    <Measure aggregator="avg" caption="Avg - Terrain Valeur Courante" column="terrain_valeur_courante" name="Avg - Terrain Valeur Courante"/>
+    <Measure aggregator="avg" caption="Avg - Batisse Valeur Courante" column="batisse_valeur_courante" name="Avg - Batisse Valeur Courante"/>
+    <Measure aggregator="avg" caption="Avg - Total Valeur Courante" column="total_valeur_courante" name="Avg - Total Valeur Courante"/>
+  </Cube>
 </Schema>
