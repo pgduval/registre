@@ -430,7 +430,7 @@
     <created_date>2017&#x2f;06&#x2f;04 15&#x3a;42&#x3a;42.145</created_date>
     <modified_user>-</modified_user>
     <modified_date>2017&#x2f;06&#x2f;04 15&#x3a;42&#x3a;42.145</modified_date>
-    <key_for_session_key/>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
@@ -509,6 +509,11 @@
     </hop>
     <hop>
       <from>Select values 2</from>
+      <to>Calculator</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Calculator</from>
       <to>Get dim_lots id</to>
       <enabled>Y</enabled>
     </hop>
@@ -518,133 +523,6 @@
       <enabled>Y</enabled>
     </hop>
   </order>
-  <step>
-    <name>Table input</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>registre</connection>
-    <sql>SELECT &#xa;    t2.pull_date as id_date_extract&#xa;	,date&#x28;t2.pull_date&#x29; as date_extraction&#xa;    ,t1.pull_id&#xa;    ,t1.t_anterieur as terrain_valeur_precedente&#xa;    ,t1.b_anterieur as batisse_valeur_precedente&#xa;    ,t1.i_anterieur as total_valeur_precedente&#xa;    ,t1.t_actuelle as terrain_valeur_courante&#xa;    ,t1.b_actuelle as batisse_valeur_courante&#xa;    ,t1.i_actuelle as total_valeur_courante&#xa;    ,t3.matricule as lot_matricule&#xa;    ,t2.city as lot_ville&#xa;FROM&#xa;    valeurrole t1&#xa;INNER JOIN&#xa;    lotpull t2&#xa;ON&#xa;    t1.pull_id &#x3d; t2.pull_id&#xa;INNER JOIN&#xa;    adresses t3&#xa;on t1.pull_id &#x3d; t3.pull_id&#xa;&#xa;</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>112</xloc>
-      <yloc>112</yloc>
-      <draw>Y</draw>
-    </GUI>
-    </step>
-
-  <step>
-    <name>Insert &#x2f; Update</name>
-    <type>InsertUpdate</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>registre_star</connection>
-    <commit>100</commit>
-    <update_bypassed>N</update_bypassed>
-    <lookup>
-      <schema/>
-      <table>fact_valeur_role</table>
-      <key>
-        <name>id_date_extract</name>
-        <field>id_date_extract</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>id_lots</name>
-        <field>id_lots</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>id_proprietaire</name>
-        <field>id_proprietaire</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>id_date_extract</name>
-        <rename>id_date_extract</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>terrain_valeur_precedente</name>
-        <rename>terrain_valeur_precedente</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>batisse_valeur_precedente</name>
-        <rename>batisse_valeur_precedente</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>total_valeur_precedente</name>
-        <rename>total_valeur_precedente</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>terrain_valeur_courante</name>
-        <rename>terrain_valeur_courante</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>batisse_valeur_courante</name>
-        <rename>batisse_valeur_courante</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>total_valeur_courante</name>
-        <rename>total_valeur_courante</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>id_lots</name>
-        <rename>id_lots</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>id_proprietaire</name>
-        <rename>id_proprietaire</rename>
-        <update>Y</update>
-      </value>
-    </lookup>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>800</xloc>
-      <yloc>112</yloc>
-      <draw>Y</draw>
-    </GUI>
-    </step>
-
   <step>
     <name>Get dim_lots id</name>
     <type>DimensionLookup</type>
@@ -696,8 +574,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>512</xloc>
-      <yloc>112</yloc>
+      <xloc>544</xloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
     </step>
@@ -744,8 +622,123 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>656</xloc>
-      <yloc>112</yloc>
+      <xloc>688</xloc>
+      <yloc>224</yloc>
+      <draw>Y</draw>
+    </GUI>
+    </step>
+
+  <step>
+    <name>Insert &#x2f; Update</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>registre_star</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema/>
+      <table>fact_valeur_role</table>
+      <key>
+        <name>id_date_extract</name>
+        <field>id_date_extract</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>id_lots</name>
+        <field>id_lots</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>id_proprietaire</name>
+        <field>id_proprietaire</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>id_lots</name>
+        <rename>id_lots</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>id_proprietaire</name>
+        <rename>id_proprietaire</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>id_date_extract</name>
+        <rename>id_date_extract</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>terrain_valeur_precedente</name>
+        <rename>terrain_valeur_precedente</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>batisse_valeur_precedente</name>
+        <rename>batisse_valeur_precedente</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>total_valeur_precedente</name>
+        <rename>total_valeur_precedente</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>terrain_valeur_courante</name>
+        <rename>terrain_valeur_courante</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>batisse_valeur_courante</name>
+        <rename>batisse_valeur_courante</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>total_valeur_courante</name>
+        <rename>total_valeur_courante</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>batisse_variation</name>
+        <rename>batisse_variation</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>terrain_variation</name>
+        <rename>terrain_variation</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>total_variation</name>
+        <rename>total_variation</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>counter</name>
+        <rename>counter</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>832</xloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
     </step>
@@ -848,6 +841,123 @@
     </step>
 
   <step>
+    <name>Table input</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>registre</connection>
+    <sql>SELECT &#xa;    t2.pull_date as id_date_extract&#xa;	,date&#x28;t2.pull_date&#x29; as date_extraction&#xa;    ,t1.pull_id&#xa;    ,t1.t_anterieur as terrain_valeur_precedente&#xa;    ,t1.b_anterieur as batisse_valeur_precedente&#xa;    ,t1.i_anterieur as total_valeur_precedente&#xa;    ,t1.t_actuelle as terrain_valeur_courante&#xa;    ,t1.b_actuelle as batisse_valeur_courante&#xa;    ,t1.i_actuelle as total_valeur_courante&#xa;    ,t3.matricule as lot_matricule&#xa;    ,t2.city as lot_ville&#xa;FROM&#xa;    valeurrole t1&#xa;INNER JOIN&#xa;    lotpull t2&#xa;ON&#xa;    t1.pull_id &#x3d; t2.pull_id&#xa;INNER JOIN&#xa;    adresses t3&#xa;on t1.pull_id &#x3d; t3.pull_id&#xa;&#xa;</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>112</xloc>
+      <yloc>112</yloc>
+      <draw>Y</draw>
+    </GUI>
+    </step>
+
+  <step>
+    <name>Calculator</name>
+    <type>Calculator</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <calculation>
+      <field_name>counter</field_name>
+      <calc_type>CONSTANT</calc_type>
+      <field_a>1</field_a>
+      <field_b/>
+      <field_c/>
+      <value_type>None</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>batisse_variation</field_name>
+      <calc_type>SUBTRACT</calc_type>
+      <field_a>batisse_valeur_courante</field_a>
+      <field_b>batisse_valeur_precedente</field_b>
+      <field_c/>
+      <value_type>Number</value_type>
+      <value_length>-1</value_length>
+      <value_precision>11</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>terrain_variation</field_name>
+      <calc_type>SUBTRACT</calc_type>
+      <field_a>terrain_valeur_courante</field_a>
+      <field_b>terrain_valeur_precedente</field_b>
+      <field_c/>
+      <value_type>Number</value_type>
+      <value_length>-1</value_length>
+      <value_precision>11</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>total_variation</field_name>
+      <calc_type>SUBTRACT</calc_type>
+      <field_a>total_valeur_courante</field_a>
+      <field_b>total_valeur_precedente</field_b>
+      <field_c/>
+      <value_type>Number</value_type>
+      <value_length>-1</value_length>
+      <value_precision>11</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>400</xloc>
+      <yloc>224</yloc>
+      <draw>Y</draw>
+    </GUI>
+    </step>
+
+  <step>
     <name>Dummy &#x28;do nothing&#x29;</name>
     <type>Dummy</type>
     <description/>
@@ -866,8 +976,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>800</xloc>
-      <yloc>240</yloc>
+      <xloc>832</xloc>
+      <yloc>368</yloc>
       <draw>Y</draw>
     </GUI>
     </step>
