@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <job>
   <name>jb_model_load</name>
   <description/>
   <extended_description/>
   <job_version/>
+  <job_status>0</job_status>
   <directory>&#x2f;</directory>
   <created_user>-</created_user>
   <created_date>2017&#x2f;06&#x2f;04 14&#x3a;35&#x3a;59.675</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2017&#x2f;06&#x2f;04 14&#x3a;35&#x3a;59.675</modified_date>
+  <modified_date>2017&#x2f;06&#x2f;19 19&#x3a;58&#x3a;26.639</modified_date>
     <parameters>
     </parameters>
     <slaveservers>
@@ -310,10 +310,11 @@
       <name>jb_dim_load</name>
       <description/>
       <type>JOB</type>
-      <specification_method>filename</specification_method>
+      <specification_method>rep_name</specification_method>
       <job_object_id/>
-      <filename>&#x2f;home&#x2f;elmaster&#x2f;scraper&#x2f;registre_foncier&#x2f;bi&#x2f;etl&#x2f;load_dim&#x2f;jb_dim_load.kjb</filename>
-      <jobname/>
+      <filename/>
+      <jobname>jb_dim_load</jobname>
+      <directory>&#x2f;load_dim</directory>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
       <exec_per_row>N</exec_per_row>
@@ -341,10 +342,11 @@
       <name>jb_fact_load</name>
       <description/>
       <type>JOB</type>
-      <specification_method>filename</specification_method>
+      <specification_method>rep_name</specification_method>
       <job_object_id/>
-      <filename>&#x2f;home&#x2f;elmaster&#x2f;scraper&#x2f;registre_foncier&#x2f;bi&#x2f;etl&#x2f;load_fact&#x2f;jb_fact_load.kjb</filename>
-      <jobname/>
+      <filename/>
+      <jobname>jb_fact_load</jobname>
+      <directory>&#x2f;load_fact</directory>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
       <exec_per_row>N</exec_per_row>
