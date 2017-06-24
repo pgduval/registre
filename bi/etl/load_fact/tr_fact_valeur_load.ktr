@@ -429,7 +429,7 @@
     <created_user>-</created_user>
     <created_date>2017&#x2f;06&#x2f;04 15&#x3a;42&#x3a;42.145</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2017&#x2f;06&#x2f;19 20&#x3a;07&#x3a;56.796</modified_date>
+    <modified_date>2017&#x2f;06&#x2f;24 15&#x3a;53&#x3a;21.440</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -488,33 +488,48 @@
   </connection>
   <order>
     <hop>
-      <from>Get dim_lots id</from>
-      <to>Get proprio id</to>
+      <from>Set date format</from>
+      <to>Cast id date to string</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Get proprio id</from>
-      <to>Insert &#x2f; Update</to>
+      <from>Cast id date to string</from>
+      <to>Compute variation</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Calcul weight 1</from>
+      <to>Calculer weight</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Calculer weight</from>
+      <to>Stream lookup</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Table input</from>
-      <to>Select values</to>
+      <to>Calcul weight 1</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Select values</from>
-      <to>Select values 2</to>
+      <from>Table input</from>
+      <to>Stream lookup</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Select values 2</from>
-      <to>Calculator</to>
+      <from>Stream lookup</from>
+      <to>Set date format</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Calculator</from>
+      <from>Get proprietaire _id</from>
       <to>Get dim_lots id</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Get dim_lots id</from>
+      <to>Insert &#x2f; Update</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -522,9 +537,19 @@
       <to>Dummy &#x28;do nothing&#x29;</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>Compute variation</from>
+      <to>Weight metrics</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Weight metrics</from>
+      <to>Get proprietaire _id</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
   <step>
-    <name>Calculator</name>
+    <name>Compute variation</name>
     <type>Calculator</type>
     <description/>
     <distribute>Y</distribute>
@@ -602,33 +627,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>400</xloc>
+      <xloc>560</xloc>
       <yloc>224</yloc>
-      <draw>Y</draw>
-    </GUI>
-    </step>
-
-  <step>
-    <name>Dummy &#x28;do nothing&#x29;</name>
-    <type>Dummy</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>832</xloc>
-      <yloc>368</yloc>
       <draw>Y</draw>
     </GUI>
     </step>
@@ -684,56 +684,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>544</xloc>
-      <yloc>224</yloc>
-      <draw>Y</draw>
-    </GUI>
-    </step>
-
-  <step>
-    <name>Get proprio id</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>registre_star</connection>
-    <cache>N</cache>
-    <cache_load_all>N</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema/>
-      <table>dim_proprietaire</table>
-      <orderby/>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>pull_id</name>
-        <field>proprio_id</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>id_proprietaire</name>
-        <rename>id_proprietaire</rename>
-        <default/>
-        <type>Integer</type>
-      </value>
-    </lookup>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>688</xloc>
-      <yloc>224</yloc>
+      <xloc>848</xloc>
+      <yloc>336</yloc>
       <draw>Y</draw>
     </GUI>
     </step>
@@ -834,8 +786,8 @@
         <update>Y</update>
       </value>
       <value>
-        <name>counter</name>
-        <rename>counter</rename>
+        <name>weight_factor</name>
+        <rename>weight_factor</rename>
         <update>Y</update>
       </value>
     </lookup>
@@ -847,14 +799,14 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>832</xloc>
-      <yloc>224</yloc>
+      <xloc>992</xloc>
+      <yloc>336</yloc>
       <draw>Y</draw>
     </GUI>
     </step>
 
   <step>
-    <name>Select values</name>
+    <name>Set date format</name>
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
@@ -903,14 +855,14 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>272</xloc>
+      <xloc>416</xloc>
       <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
     </step>
 
   <step>
-    <name>Select values 2</name>
+    <name>Cast id date to string</name>
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
@@ -944,7 +896,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>400</xloc>
+      <xloc>560</xloc>
       <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
@@ -962,7 +914,7 @@
       <schema_name/>
     </partitioning>
     <connection>registre</connection>
-    <sql>SELECT &#xa;    t2.pull_date as id_date_extract&#xa;	,date&#x28;t2.pull_date&#x29; as date_extraction&#xa;    ,t1.pull_id&#xa;    ,t1.t_anterieur as terrain_valeur_precedente&#xa;    ,t1.b_anterieur as batisse_valeur_precedente&#xa;    ,t1.i_anterieur as total_valeur_precedente&#xa;    ,t1.t_actuelle as terrain_valeur_courante&#xa;    ,t1.b_actuelle as batisse_valeur_courante&#xa;    ,t1.i_actuelle as total_valeur_courante&#xa;    ,t3.matricule as lot_matricule&#xa;    ,t2.city as lot_ville&#xa;FROM&#xa;    valeurrole t1&#xa;INNER JOIN&#xa;    lotpull t2&#xa;ON&#xa;    t1.pull_id &#x3d; t2.pull_id&#xa;INNER JOIN&#xa;    adresses t3&#xa;on t1.pull_id &#x3d; t3.pull_id&#xa;&#xa;</sql>
+    <sql>SELECT &#xa;    lp.pull_date as id_date_extract&#xa;    ,date&#x28;lp.pull_date&#x29; as date_extraction&#xa;    ,vr.pull_id&#xa;    ,vr.t_anterieur as terrain_valeur_precedente&#xa;    ,vr.b_anterieur as batisse_valeur_precedente&#xa;    ,vr.i_anterieur as total_valeur_precedente&#xa;    ,vr.t_actuelle as terrain_valeur_courante&#xa;    ,vr.b_actuelle as batisse_valeur_courante&#xa;    ,vr.i_actuelle as total_valeur_courante&#xa;    ,adr.matricule as lot_matricule&#xa;    ,lp.city as lot_ville&#xa;    -- Retrive business key for proprietaire&#xa;    ,pr.proprio_id&#xa;    ,pr.nom as individu_nom&#xa;    ,pr.dateinscription as individu_date_inscription&#xa;    ,pr.codepostal as individu_code_postal&#xa;    ,pr.city as individu_ville&#xa;    ,pr.adresse as individu_addresse&#xa;FROM&#xa;    valeurrole vr&#xa;INNER JOIN lotpull lp&#xa;    ON&#xa;    vr.pull_id &#x3d; lp.pull_id&#xa;INNER JOIN adresses adr&#xa;    ON vr.pull_id &#x3d; adr.pull_id&#xa;INNER JOIN proprietaires pr&#xa;    ON vr.pull_id &#x3d; pr.pull_id&#xa;ORDER BY vr.pull_id&#xa;&#xa;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -978,6 +930,407 @@
     <GUI>
       <xloc>112</xloc>
       <yloc>112</yloc>
+      <draw>Y</draw>
+    </GUI>
+    </step>
+
+  <step>
+    <name>Calcul weight 1</name>
+    <type>GroupBy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+      <all_rows>N</all_rows>
+      <ignore_aggregate>N</ignore_aggregate>
+      <field_ignore/>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
+      <prefix>grp</prefix>
+      <add_linenr>N</add_linenr>
+      <linenr_fieldname/>
+      <give_back_row>N</give_back_row>
+      <group>
+        <field>
+          <name>pull_id</name>
+        </field>
+      </group>
+      <fields>
+        <field>
+          <aggregate>num_proprio</aggregate>
+          <subject>proprio_id</subject>
+          <type>COUNT_ALL</type>
+          <valuefield/>
+        </field>
+      </fields>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>112</xloc>
+      <yloc>272</yloc>
+      <draw>Y</draw>
+    </GUI>
+    </step>
+
+  <step>
+    <name>Calculer weight</name>
+    <type>Calculator</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <calculation>
+      <field_name>one</field_name>
+      <calc_type>CONSTANT</calc_type>
+      <field_a>1</field_a>
+      <field_b/>
+      <field_c/>
+      <value_type>Number</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>weight_factor</field_name>
+      <calc_type>DIVIDE</calc_type>
+      <field_a>one</field_a>
+      <field_b>num_proprio</field_b>
+      <field_c/>
+      <value_type>Number</value_type>
+      <value_length>-1</value_length>
+      <value_precision>11</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>288</xloc>
+      <yloc>272</yloc>
+      <draw>Y</draw>
+    </GUI>
+    </step>
+
+  <step>
+    <name>Stream lookup</name>
+    <type>StreamLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <from>Calculer weight</from>
+    <input_sorted>N</input_sorted>
+    <preserve_memory>Y</preserve_memory>
+    <sorted_list>N</sorted_list>
+    <integer_pair>N</integer_pair>
+    <lookup>
+      <key>
+        <name>pull_id</name>
+        <field>pull_id</field>
+      </key>
+      <value>
+        <name>weight_factor</name>
+        <rename>weight_factor</rename>
+        <default/>
+        <type>None</type>
+      </value>
+    </lookup>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>288</xloc>
+      <yloc>112</yloc>
+      <draw>Y</draw>
+    </GUI>
+    </step>
+
+  <step>
+    <name>Get proprietaire _id</name>
+    <type>DimensionLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+      <schema/>
+      <table>dim_proprietaire</table>
+      <connection>registre_star</connection>
+      <commit>100</commit>
+      <update>N</update>
+      <fields>
+        <key>
+          <name>individu_nom</name>
+          <lookup>individu_nom</lookup>
+        </key>
+        <key>
+          <name>individu_date_inscription</name>
+          <lookup>individu_date_inscription</lookup>
+        </key>
+        <key>
+          <name>individu_code_postal</name>
+          <lookup>individu_code_postal</lookup>
+        </key>
+        <key>
+          <name>individu_ville</name>
+          <lookup>individu_ville</lookup>
+        </key>
+        <key>
+          <name>individu_addresse</name>
+          <lookup>individu_addresse</lookup>
+        </key>
+        <date>
+          <name>date_extraction</name>
+          <from>valid_from_dt</from>
+          <to>valid_to_dt</to>
+        </date>
+        <return>
+          <name>id_proprietaire</name>
+          <rename/>
+          <creation_method>autoinc</creation_method>
+          <use_autoinc>Y</use_autoinc>
+          <version>indr_version</version>
+        </return>
+      </fields>
+      <sequence/>
+      <min_year>1900</min_year>
+      <max_year>2199</max_year>
+      <cache_size>5000</cache_size>
+      <preload_cache>N</preload_cache>
+      <use_start_date_alternative>N</use_start_date_alternative>
+      <start_date_alternative>none</start_date_alternative>
+      <start_date_field_name/>
+      <useBatch>N</useBatch>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>704</xloc>
+      <yloc>336</yloc>
+      <draw>Y</draw>
+    </GUI>
+    </step>
+
+  <step>
+    <name>Dummy &#x28;do nothing&#x29;</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>992</xloc>
+      <yloc>464</yloc>
+      <draw>Y</draw>
+    </GUI>
+    </step>
+
+  <step>
+    <name>Weight metrics</name>
+    <type>Calculator</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <calculation>
+      <field_name>batisse_valeur_courante</field_name>
+      <calc_type>MULTIPLY</calc_type>
+      <field_a>batisse_valeur_courante</field_a>
+      <field_b>weight_factor</field_b>
+      <field_c/>
+      <value_type>Number</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>batisse_valeur_precedente</field_name>
+      <calc_type>MULTIPLY</calc_type>
+      <field_a>batisse_valeur_precedente</field_a>
+      <field_b>weight_factor</field_b>
+      <field_c/>
+      <value_type>None</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>batisse_variation</field_name>
+      <calc_type>MULTIPLY</calc_type>
+      <field_a>batisse_variation</field_a>
+      <field_b>weight_factor</field_b>
+      <field_c/>
+      <value_type>None</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>terrain_valeur_courante</field_name>
+      <calc_type>MULTIPLY</calc_type>
+      <field_a>terrain_valeur_courante</field_a>
+      <field_b>weight_factor</field_b>
+      <field_c/>
+      <value_type>None</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>terrain_valeur_precedente</field_name>
+      <calc_type>MULTIPLY</calc_type>
+      <field_a>terrain_valeur_precedente</field_a>
+      <field_b>weight_factor</field_b>
+      <field_c/>
+      <value_type>None</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>terrain_variation</field_name>
+      <calc_type>MULTIPLY</calc_type>
+      <field_a>terrain_variation</field_a>
+      <field_b>weight_factor</field_b>
+      <field_c/>
+      <value_type>None</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>total_valeur_courante</field_name>
+      <calc_type>MULTIPLY</calc_type>
+      <field_a>total_valeur_courante</field_a>
+      <field_b>weight_factor</field_b>
+      <field_c/>
+      <value_type>None</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>total_valeur_precedente</field_name>
+      <calc_type>MULTIPLY</calc_type>
+      <field_a>total_valeur_precedente</field_a>
+      <field_b>weight_factor</field_b>
+      <field_c/>
+      <value_type>None</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>total_variation</field_name>
+      <calc_type>MULTIPLY</calc_type>
+      <field_a>total_variation</field_a>
+      <field_b>weight_factor</field_b>
+      <field_c/>
+      <value_type>None</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>560</xloc>
+      <yloc>336</yloc>
       <draw>Y</draw>
     </GUI>
     </step>
