@@ -4,7 +4,7 @@
   <Cube caption="Registre Foncier" name="Registre Foncier">
     <Table name="fact_valeur_role" schema="registre"/>
     <!-- Dimension temps -->
-    <Dimension foreignKey="id_date" name="Temps" type="TimeDimension">
+    <Dimension foreignKey="id_date_extract" name="Temps" type="TimeDimension">
       <Hierarchy allMemberName="All Years" hasAll="true" primaryKey="id_date">
         <Table name="dim_temps"/>
         <Level column="year" hideMemberIf="Never" levelType="TimeYears" name="Years" type="String" uniqueMembers="true"/>
