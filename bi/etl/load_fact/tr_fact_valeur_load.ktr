@@ -429,7 +429,7 @@
     <created_user>-</created_user>
     <created_date>2017&#x2f;06&#x2f;04 15&#x3a;42&#x3a;42.145</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2017&#x2f;06&#x2f;24 15&#x3a;53&#x3a;21.440</modified_date>
+    <modified_date>2017&#x2f;06&#x2f;25 19&#x3a;38&#x3a;27.467</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -518,11 +518,6 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Stream lookup</from>
-      <to>Set date format</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Get proprietaire _id</from>
       <to>Get dim_lots id</to>
       <enabled>Y</enabled>
@@ -545,6 +540,21 @@
     <hop>
       <from>Weight metrics</from>
       <to>Get proprietaire _id</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>CSV file input</from>
+      <to>Retrive city mapping</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Stream lookup</from>
+      <to>Retrive city mapping</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Retrive city mapping</from>
+      <to>Set date format</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -575,10 +585,10 @@
       <currency_symbol/>
     </calculation>
     <calculation>
-      <field_name>batisse_variation</field_name>
+      <field_name>b_variation</field_name>
       <calc_type>SUBTRACT</calc_type>
-      <field_a>batisse_valeur_courante</field_a>
-      <field_b>batisse_valeur_precedente</field_b>
+      <field_a>b_actuelle</field_a>
+      <field_b>b_anterieur</field_b>
       <field_c/>
       <value_type>Number</value_type>
       <value_length>-1</value_length>
@@ -590,10 +600,10 @@
       <currency_symbol/>
     </calculation>
     <calculation>
-      <field_name>terrain_variation</field_name>
+      <field_name>t_variation</field_name>
       <calc_type>SUBTRACT</calc_type>
-      <field_a>terrain_valeur_courante</field_a>
-      <field_b>terrain_valeur_precedente</field_b>
+      <field_a>t_actuelle</field_a>
+      <field_b>t_anterieur</field_b>
       <field_c/>
       <value_type>Number</value_type>
       <value_length>-1</value_length>
@@ -605,10 +615,10 @@
       <currency_symbol/>
     </calculation>
     <calculation>
-      <field_name>total_variation</field_name>
+      <field_name>i_variation</field_name>
       <calc_type>SUBTRACT</calc_type>
-      <field_a>total_valeur_courante</field_a>
-      <field_b>total_valeur_precedente</field_b>
+      <field_a>i_actuelle</field_a>
+      <field_b>i_anterieur</field_b>
       <field_c/>
       <value_type>Number</value_type>
       <value_length>-1</value_length>
@@ -627,7 +637,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>560</xloc>
+      <xloc>736</xloc>
       <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
@@ -684,7 +694,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>848</xloc>
+      <xloc>1024</xloc>
       <yloc>336</yloc>
       <draw>Y</draw>
     </GUI>
@@ -799,7 +809,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>992</xloc>
+      <xloc>1168</xloc>
       <yloc>336</yloc>
       <draw>Y</draw>
     </GUI>
@@ -855,8 +865,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>416</xloc>
-      <yloc>112</yloc>
+      <xloc>592</xloc>
+      <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
     </step>
@@ -896,8 +906,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>560</xloc>
-      <yloc>112</yloc>
+      <xloc>736</xloc>
+      <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
     </step>
@@ -914,7 +924,7 @@
       <schema_name/>
     </partitioning>
     <connection>registre</connection>
-    <sql>SELECT &#xa;    lp.pull_date as id_date_extract&#xa;    ,date&#x28;lp.pull_date&#x29; as date_extraction&#xa;    ,vr.pull_id&#xa;    ,vr.t_anterieur as terrain_valeur_precedente&#xa;    ,vr.b_anterieur as batisse_valeur_precedente&#xa;    ,vr.i_anterieur as total_valeur_precedente&#xa;    ,vr.t_actuelle as terrain_valeur_courante&#xa;    ,vr.b_actuelle as batisse_valeur_courante&#xa;    ,vr.i_actuelle as total_valeur_courante&#xa;    ,adr.matricule as lot_matricule&#xa;    ,lp.city as lot_ville&#xa;    -- Retrive business key for proprietaire&#xa;    ,pr.proprio_id&#xa;    ,pr.nom as individu_nom&#xa;    ,pr.dateinscription as individu_date_inscription&#xa;    ,pr.codepostal as individu_code_postal&#xa;    ,pr.city as individu_ville&#xa;    ,pr.adresse as individu_addresse&#xa;FROM&#xa;    valeurrole vr&#xa;INNER JOIN lotpull lp&#xa;    ON&#xa;    vr.pull_id &#x3d; lp.pull_id&#xa;INNER JOIN adresses adr&#xa;    ON vr.pull_id &#x3d; adr.pull_id&#xa;INNER JOIN proprietaires pr&#xa;    ON vr.pull_id &#x3d; pr.pull_id&#xa;ORDER BY vr.pull_id&#xa;&#xa;</sql>
+    <sql>SELECT &#xa;    lp.pull_date as id_date_extract&#xa;    ,date&#x28;lp.pull_date&#x29; as date_extraction&#xa;    ,vr.pull_id&#xa;    ,vr.t_anterieur as t_anterieur&#xa;    ,vr.b_anterieur as b_anterieur&#xa;    ,vr.i_anterieur as i_anterieur&#xa;    ,vr.t_actuelle as t_actuelle&#xa;    ,vr.b_actuelle as b_actuelle&#xa;    ,vr.i_actuelle as i_actuelle&#xa;    ,adr.matricule as lot_matricule&#xa;    ,lp.city as lot_ville&#xa;    -- Retrive business key for proprietaire&#xa;    ,pr.proprio_id&#xa;    ,pr.nom as individu_nom&#xa;    ,pr.dateinscription as individu_date_inscription&#xa;    ,pr.codepostal as individu_code_postal&#xa;    ,pr.city&#xa;    ,pr.adresse as individu_addresse&#xa;FROM&#xa;    valeurrole vr&#xa;INNER JOIN lotpull lp&#xa;    ON&#xa;    vr.pull_id &#x3d; lp.pull_id&#xa;INNER JOIN adresses adr&#xa;    ON vr.pull_id &#x3d; adr.pull_id&#xa;INNER JOIN proprietaires pr&#xa;    ON vr.pull_id &#x3d; pr.pull_id&#xa;WHERE adr.isadresseprincipale &#x3d; 1&#xa;ORDER BY vr.pull_id&#xa;&#xa;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -929,7 +939,7 @@
     </remotesteps>
     <GUI>
       <xloc>112</xloc>
-      <yloc>112</yloc>
+      <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
     </step>
@@ -975,7 +985,7 @@
     </remotesteps>
     <GUI>
       <xloc>112</xloc>
-      <yloc>272</yloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
     </step>
@@ -1030,7 +1040,7 @@
     </remotesteps>
     <GUI>
       <xloc>288</xloc>
-      <yloc>272</yloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
     </step>
@@ -1072,7 +1082,7 @@
     </remotesteps>
     <GUI>
       <xloc>288</xloc>
-      <yloc>112</yloc>
+      <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
     </step>
@@ -1144,7 +1154,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>704</xloc>
+      <xloc>880</xloc>
       <yloc>336</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1169,7 +1179,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>992</xloc>
+      <xloc>1168</xloc>
       <yloc>464</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1189,7 +1199,7 @@
     <calculation>
       <field_name>batisse_valeur_courante</field_name>
       <calc_type>MULTIPLY</calc_type>
-      <field_a>batisse_valeur_courante</field_a>
+      <field_a>b_actuelle</field_a>
       <field_b>weight_factor</field_b>
       <field_c/>
       <value_type>Number</value_type>
@@ -1204,7 +1214,7 @@
     <calculation>
       <field_name>batisse_valeur_precedente</field_name>
       <calc_type>MULTIPLY</calc_type>
-      <field_a>batisse_valeur_precedente</field_a>
+      <field_a>b_anterieur</field_a>
       <field_b>weight_factor</field_b>
       <field_c/>
       <value_type>None</value_type>
@@ -1219,7 +1229,7 @@
     <calculation>
       <field_name>batisse_variation</field_name>
       <calc_type>MULTIPLY</calc_type>
-      <field_a>batisse_variation</field_a>
+      <field_a>b_variation</field_a>
       <field_b>weight_factor</field_b>
       <field_c/>
       <value_type>None</value_type>
@@ -1234,7 +1244,7 @@
     <calculation>
       <field_name>terrain_valeur_courante</field_name>
       <calc_type>MULTIPLY</calc_type>
-      <field_a>terrain_valeur_courante</field_a>
+      <field_a>t_actuelle</field_a>
       <field_b>weight_factor</field_b>
       <field_c/>
       <value_type>None</value_type>
@@ -1249,7 +1259,7 @@
     <calculation>
       <field_name>terrain_valeur_precedente</field_name>
       <calc_type>MULTIPLY</calc_type>
-      <field_a>terrain_valeur_precedente</field_a>
+      <field_a>t_anterieur</field_a>
       <field_b>weight_factor</field_b>
       <field_c/>
       <value_type>None</value_type>
@@ -1264,7 +1274,7 @@
     <calculation>
       <field_name>terrain_variation</field_name>
       <calc_type>MULTIPLY</calc_type>
-      <field_a>terrain_variation</field_a>
+      <field_a>t_variation</field_a>
       <field_b>weight_factor</field_b>
       <field_c/>
       <value_type>None</value_type>
@@ -1279,7 +1289,7 @@
     <calculation>
       <field_name>total_valeur_courante</field_name>
       <calc_type>MULTIPLY</calc_type>
-      <field_a>total_valeur_courante</field_a>
+      <field_a>i_actuelle</field_a>
       <field_b>weight_factor</field_b>
       <field_c/>
       <value_type>None</value_type>
@@ -1294,7 +1304,7 @@
     <calculation>
       <field_name>total_valeur_precedente</field_name>
       <calc_type>MULTIPLY</calc_type>
-      <field_a>total_valeur_precedente</field_a>
+      <field_a>i_anterieur</field_a>
       <field_b>weight_factor</field_b>
       <field_c/>
       <value_type>None</value_type>
@@ -1309,7 +1319,7 @@
     <calculation>
       <field_name>total_variation</field_name>
       <calc_type>MULTIPLY</calc_type>
-      <field_a>total_variation</field_a>
+      <field_a>i_variation</field_a>
       <field_b>weight_factor</field_b>
       <field_c/>
       <value_type>None</value_type>
@@ -1329,8 +1339,112 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>560</xloc>
+      <xloc>736</xloc>
       <yloc>336</yloc>
+      <draw>Y</draw>
+    </GUI>
+    </step>
+
+  <step>
+    <name>Retrive city mapping</name>
+    <type>StreamLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <from>CSV file input</from>
+    <input_sorted>N</input_sorted>
+    <preserve_memory>N</preserve_memory>
+    <sorted_list>N</sorted_list>
+    <integer_pair>N</integer_pair>
+    <lookup>
+      <key>
+        <name>city</name>
+        <field>city</field>
+      </key>
+      <value>
+        <name>city_mapping</name>
+        <rename>individu_ville</rename>
+        <default/>
+        <type>String</type>
+      </value>
+    </lookup>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>448</xloc>
+      <yloc>64</yloc>
+      <draw>Y</draw>
+    </GUI>
+    </step>
+
+  <step>
+    <name>CSV file input</name>
+    <type>CsvInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <filename>&#x2f;home&#x2f;elmaster&#x2f;scraper&#x2f;registre_foncier&#x2f;bi&#x2f;etl&#x2f;load_dim&#x2f;pilotage&#x2f;city_mapping.csv</filename>
+    <filename_field/>
+    <rownum_field/>
+    <include_filename>N</include_filename>
+    <separator>,</separator>
+    <enclosure>&#x22;</enclosure>
+    <header>Y</header>
+    <buffer_size>50000</buffer_size>
+    <lazy_conversion>Y</lazy_conversion>
+    <add_filename_result>N</add_filename_result>
+    <parallel>N</parallel>
+    <newline_possible>N</newline_possible>
+    <encoding/>
+    <fields>
+      <field>
+        <name>city</name>
+        <type>String</type>
+        <format/>
+        <currency>&#x24;</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>33</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>city_mapping</name>
+        <type>String</type>
+        <format/>
+        <currency>&#x24;</currency>
+        <decimal>.</decimal>
+        <group>,</group>
+        <length>33</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+    </fields>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>448</xloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
     </step>
