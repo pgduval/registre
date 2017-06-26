@@ -12,12 +12,12 @@
         <Level column="month_name" hideMemberIf="Never" levelType="TimeMonths" name="Months" ordinalColumn="month" type="String" uniqueMembers="false"/>
       </Hierarchy>
     </Dimension>
-<!-- Dimension lots -->
+    <!-- Dimension lots -->
     <!-- Ville -->
-    <Dimension foreignKey="id_lots" name="Ville">
-      <Hierarchy allMemberName="All Ville" hasAll="true" primaryKey="id_lots">
+    <Dimension foreignKey="id_lots" name="Lot - Ville">
+      <Hierarchy allMemberName="All Lot - Ville" hasAll="true" primaryKey="id_lots">
         <Table name="dim_lots"/>
-        <Level column="lot_ville" hideMemberIf="Never" levelType="Regular" name="Ville" type="String" uniqueMembers="false"/>
+        <Level column="lot_ville" hideMemberIf="Never" levelType="Regular" name="Lot - Ville" type="String" uniqueMembers="false"/>
       </Hierarchy>
       <!-- Utilisation -->
     </Dimension>
@@ -27,26 +27,37 @@
         <Level column="lot_desc_utilisation" hideMemberIf="Never" levelType="Regular" name="Utilisation" type="String" uniqueMembers="false"/>
       </Hierarchy>
     </Dimension>
-      <!-- Annee construction -->
+    <!-- Annee construction -->
     <Dimension foreignKey="id_lots" name="Annee Construction">
       <Hierarchy allMemberName="All Construction" hasAll="true" primaryKey="id_lots">
         <Table name="dim_lots"/>
         <Level column="lot_annee_construction" hideMemberIf="Never" levelType="Regular" name="Annee Construction" type="String" uniqueMembers="false"/>
       </Hierarchy>
     </Dimension>
+    <!-- Dimensions Proprietaire -->
+    <!-- Ville Proprietaire -->
+    <Dimension foreignKey="id_proprietaire" name="Proprio - Ville">
+      <Hierarchy allMemberName="All Proprio - Ville" hasAll="true" primaryKey="id_proprietaire">
+        <Table name="dim_proprietaire"/>
+        <Level column="individu_ville" hideMemberIf="Never" levelType="Regular" name="Proprio - Ville" type="String" uniqueMembers="false"/>
+      </Hierarchy>
+    </Dimension> 
+    <!-- Annee Inscription -->
+    <Dimension foreignKey="id_proprietaire" name="Proprio -  Inscription">
+      <Hierarchy allMemberName="All Inscription" hasAll="true" primaryKey="id_proprietaire">
+        <Table name="dim_proprietaire"/>
+        <Level column="individu_date_inscription" hideMemberIf="Never" levelType="Regular" name="Proprio -  Inscription" type="String" uniqueMembers="false"/>
+      </Hierarchy>
+    </Dimension>
     <!-- Measures -->
     <Measure aggregator="count" caption="Counter" column="terrain_valeur_precedente" name="Counter"/>
+    <Measure aggregator="sum" caption="Sum - Weight" column="weight_factor" name="Sum - Weight"/>
     <Measure aggregator="sum" caption="Sum - Terrain Valeur Precedente" column="terrain_valeur_precedente" name="Sum - Terrain Valeur Precedente"/>
-    <Measure aggregator="sum" caption="Sum - Batisse Valeur Precedente" column="batisse_valeur_precedente" name="Sum - Batisse Valeur Precedente"/>
-    <Measure aggregator="sum" caption="Sum - Total Valeur Precendente" column="total_valeur_precedente" name="Sum - Total Valeur Precendente"/>
-    <Measure aggregator="sum" caption="Sum - Terrain Valeur Courante" column="terrain_valeur_courante" name="Sum - Terrain Valeur Courante"/>
-    <Measure aggregator="sum" caption="Sum - Batisse Valeur Courante" column="batisse_valeur_courante" name="Sum - Batisse Valeur Courante"/>
-    <Measure aggregator="sum" caption="Sum - Total Valeur Courante" column="total_valeur_courante" name="Sum - Total Valeur Courante"/>
-    <Measure aggregator="avg" caption="Avg - Terrain Valeur Precedente" column="terrain_valeur_precedente" name="Avg - Terrain Valeur Precedente"/>
-    <Measure aggregator="avg" caption="Avg - Batisse Valeur Precedente" column="batisse_valeur_precedente" name="Avg - Batisse Valeur Precedente"/>
-    <Measure aggregator="avg" caption="Avg - Total Valeur Precendente" column="total_valeur_precedente" name="Avg - Total Valeur Precendente"/>
-    <Measure aggregator="avg" caption="Avg - Terrain Valeur Courante" column="terrain_valeur_courante" name="Avg - Terrain Valeur Courante"/>
-    <Measure aggregator="avg" caption="Avg - Batisse Valeur Courante" column="batisse_valeur_courante" name="Avg - Batisse Valeur Courante"/>
-    <Measure aggregator="avg" caption="Avg - Total Valeur Courante" column="total_valeur_courante" name="Avg - Total Valeur Courante"/>
+<!-- Calculated Member -->
+<!-- Mesure dimensions because they are declared as measures -->
+    <CalculatedMember dimension="Measures" name="Average">
+      <Formula>SUM([Measures].[Sum - Terrain Valeur Precedente]) / SUM([Measures].[Sum - Weight])</Formula>
+      <CalculatedMemberProperty name="FORMAT_STRING" value="#,##0.00"/>
+    </CalculatedMember>
   </Cube>
 </Schema>
