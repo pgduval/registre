@@ -34,6 +34,13 @@
         <Level column="lot_annee_construction" hideMemberIf="Never" levelType="Regular" name="Annee Construction" type="String" uniqueMembers="false"/>
       </Hierarchy>
     </Dimension>
+    <!-- Superficie Percentile -->
+    <Dimension foreignKey="id_lots" name="Superficie Percentile">
+      <Hierarchy allMemberName="All Percentile" hasAll="true" primaryKey="id_lots">
+        <Table name="dim_lots"/>
+        <Level column="lot_superficie_label" hideMemberIf="Never" levelType="Regular" name="Superficie Percentile" type="String" uniqueMembers="false"/>
+      </Hierarchy>
+    </Dimension>
     <!-- Dimensions Proprietaire -->
     <!-- Ville Proprietaire -->
     <Dimension foreignKey="id_proprietaire" name="Proprio - Ville">
@@ -46,7 +53,7 @@
     <Dimension foreignKey="id_proprietaire" name="Proprio -  Inscription">
       <Hierarchy allMemberName="All Inscription" hasAll="true" primaryKey="id_proprietaire">
         <Table name="dim_proprietaire"/>
-        <Level column="individu_date_inscription" hideMemberIf="Never" levelType="Regular" name="Proprio -  Inscription" type="String" uniqueMembers="false"/>
+        <Level column="individu_annee_inscription" hideMemberIf="Never" levelType="Regular" name="Proprio -  Année Inscription" type="String" uniqueMembers="false"/>
       </Hierarchy>
     </Dimension>
     <!-- Measures -->
